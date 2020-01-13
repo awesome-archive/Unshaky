@@ -1,7 +1,7 @@
-# Unshaky
+# <img src="README/logo.web.png" alt="Unshaky" height="40"> Unshaky
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=JLLGBFQKTTX9W&source=url) [![Github All Releases](https://img.shields.io/github/downloads/aahung/Unshaky/total.svg)](https://github.com/aahung/Unshaky/releases) [![Build Status](https://travis-ci.org/aahung/Unshaky.svg?branch=master)](https://travis-ci.org/aahung/Unshaky)
 
-<img src="https://raw.githubusercontent.com/aahung/Unshaky/master/README/menubar.png" alt="Menubar" height="250">
+<img src="README/menubar.png" alt="Menubar" width="331">
 
 **Unshaky** tries to address an issue on the butterfly keyboard (Macbook, Macbook Air 2018 & MacBook Pro 2016 and later): Double Key Press (See "[User complaints](#complaints-about-this-issue)" below). 
 
@@ -61,19 +61,33 @@ Click Unshaky icon in the menu bar and select "Configure" to configure delays fo
 
 I don't think there is a universal delay value for all people. If you type very fast, you might want to have a shorter delay. I use 40 ms since I am a fast typer. With a long delay, I cannot type "apple" because the second "p" is likely to be blocked. Some users found 60 ms a sweet spot and some have no issue with 80 ms. My suggestion is to start with a short delay (like 40 ms) and gradually increase it.
 
-## Contributors
+### For other FAQs, visit [the Wiki](https://github.com/aahung/Unshaky/wiki)
 
-Please help to translate Unshaky into more languages. [Open an issue](https://github.com/aahung/Unshaky/issues/new/choose) to propose one if you are interested.
+## Community Localization Contributors
 
-- Main program, Chinese localization: [_sam](https://nestederror.com)
-- Japanese: forgazer (localization), [HackingGate](https://github.com/HackingGate)
-- French localization: [xuesongTU](https://github.com/xuesongTU)
-- German localization: [Felix Grund](https://github.com/ataraxie)
-- Russian and Ukrainian localization: [Alexey Khromets](https://github.com/akhromets)
-- Turkish localization: [Hazar Ekinci](https://github.com/hazar-e)
-- Korean localization: [Woosuk Park](https://github.com/readingsnail)
-- Portuguese (Portugal) localization: [Gonçalo Matos](https://github.com/GoncaloCdM)
-- Italian localization: [valepert](https://github.com/valepert), [Domenico Corvasce](https://github.com/domcorvasce)
-- Indonesian localization: [Elmo Tanu Miharja](https://github.com/elmotan95)
-- Spanish (Latin America) localization: [jadraker](https://github.com/jadraker)
-- Dutch localization: [Siebrand Mazeland](https://github.com/siebrand) and [Zandor Smith](https://github.com/Zandor300)
+If you can help translate Unshaky into more languages, [open an issue here](https://github.com/aahung/Unshaky/issues/new/choose) so I can prepare related files for translation.
+
+Your contributions are valuable and make Unshaky accessible to more users.
+
+**Big _Thank You_ to these community contributors who provide translations.**
+
+| Language | Contributors |
+| -------- | ------------ |
+| Chinese  | [_sam](https://nestederror.com) |
+| Japanese | forgazer, [HackingGate](https://github.com/HackingGate) |
+| French | [xuesongTU](https://github.com/xuesongTU) |
+| German | [Felix Grund](https://github.com/ataraxie) |
+| Russian | [Alexey Khromets](https://github.com/akhromets) |
+| Ukrainian | [Alexey Khromets](https://github.com/akhromets) |
+| Turkish | [Hazar Ekinci](https://github.com/hazar-e) |
+| Korean | [Woosuk Park](https://github.com/readingsnail) |
+| Portuguese (Portugal) | [Gonçalo Matos](https://github.com/GoncaloCdM) |
+| Italian | [valepert](https://github.com/valepert), [Domenico Corvasce](https://github.com/domcorvasce)
+| Indonesian | [Elmo Tanu Miharja](https://github.com/elmotan95)
+| Spanish (Latin America) | [jadraker](https://github.com/jadraker) |
+| Dutch | [Siebrand Mazeland](https://github.com/siebrand), [Zandor Smith](https://github.com/Zandor300)
+| Portuguese (Brazil) | [Délisson Junio](https://github.com/delissonjunio) |
+| Norwegian | [Runar Skaare Tveiten](https://github.com/runar) |
+| Czech | [Michal Zelinka](https://github.com/username0x0a) |
+| Slovak | [Michal Zelinka](https://github.com/username0x0a) |
+| Polish | [Blaze](https://github.com/blazeblazeblaze), [Artur Kondas](https://github.com/youshy) |
