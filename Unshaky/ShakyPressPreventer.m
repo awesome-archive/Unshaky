@@ -20,13 +20,17 @@
     BOOL cmdSpaceAllowance;
     BOOL workaroundForCmdSpace;
     BOOL aggressiveMode;
+    BOOL statisticsDisabled;
 
     BOOL dismissNextEvent[N_VIRTUAL_KEY];
     int keyDelays[N_VIRTUAL_KEY];
     BOOL ignoreExternalKeyboard;
-    Handler shakyPressDismissedHandler;
+    BOOL ignoreInternalKeyboard;
+    Handler statisticsHandler;
 
     CFMachPortRef eventTap;
+
+    BOOL disabled;
 }
 
 static NSDictionary<NSNumber *, NSString *> *_keyCodeToString;
@@ -46,13 +50,16 @@ static NSDictionary<NSNumber *, NSString *> *_keyCodeToString;
         eventTap = NULL;
         [self loadKeyDelays];
         [self loadIgnoreExternalKeyboard];
+        [self loadIgnoreInternalKeyboard];
         [self loadWorkaroundForCmdSpace];
         [self loadAggressiveMode];
+        [self loadStatisticsDisabled];
         for (int i = 0; i < N_VIRTUAL_KEY; ++i) {
             lastPressedTimestamps[i] = 0.0;
             lastPressedEventTypes[i] = 0;
             dismissNextEvent[i] = NO;
         }
+        disabled = NO;
     }
     return self;
 }
@@ -76,11 +83,27 @@ static NSDictionary<NSNumber *, NSString *> *_keyCodeToString;
 - (void)loadKeyDelays {
     NSUserDefaults *defaults = NSUserDefaults.standardUserDefaults;
     NSArray *delays = [defaults arrayForKey:@"delays"];
+
+    // load enableds first
+    int keyEnableds[N_VIRTUAL_KEY];
+    NSArray *enableds = [defaults arrayForKey:@"enableds"];
+    if (enableds == nil) {
+        for (int i = 0; i < N_VIRTUAL_KEY; ++i) {
+            keyEnableds[i] = true;
+        }
+    } else {
+        for (int i = 0; i < N_VIRTUAL_KEY; ++i) {
+            keyEnableds[i] = i >= [enableds count] ? true : [(NSNumber *)[enableds objectAtIndex:i] boolValue];
+        }
+    }
+
+    // set delays
     if (delays == nil) {
         memset(keyDelays, 0, N_VIRTUAL_KEY * sizeof(int));
     } else {
         for (int i = 0; i < N_VIRTUAL_KEY; ++i) {
-            keyDelays[i] = i >= [delays count] ? 0 : [(NSNumber *)[delays objectAtIndex:i] intValue];
+            keyDelays[i] = (i >= [delays count] || keyEnableds[i] == false) ?
+                0 : [(NSNumber *)[delays objectAtIndex:i] intValue];
         }
     }
 }
@@ -88,6 +111,11 @@ static NSDictionary<NSNumber *, NSString *> *_keyCodeToString;
 - (void)loadIgnoreExternalKeyboard {
     NSUserDefaults *defaults = NSUserDefaults.standardUserDefaults;
     ignoreExternalKeyboard = [defaults boolForKey:@"ignoreExternalKeyboard"]; // default No
+}
+
+- (void)loadIgnoreInternalKeyboard {
+    NSUserDefaults *defaults = NSUserDefaults.standardUserDefaults;
+    ignoreInternalKeyboard = [defaults boolForKey:@"ignoreInternalKeyboard"]; // default No
 }
 
 - (void)loadWorkaroundForCmdSpace {
@@ -100,13 +128,32 @@ static NSDictionary<NSNumber *, NSString *> *_keyCodeToString;
     aggressiveMode = [defaults boolForKey:@"aggressiveMode"]; // default No
 }
 
+- (void)loadStatisticsDisabled {
+    NSUserDefaults *defaults = NSUserDefaults.standardUserDefaults;
+    statisticsDisabled = [defaults boolForKey:@"statisticsDisabled"]; // default No
+}
+
+- (void)setDisabled:(BOOL)_disabled {
+    disabled = _disabled;
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"enabled-toggled" object:nil];
+}
+
+- (BOOL)isDisabled {
+    return disabled;
+}
+
 - (CGEventRef)filterShakyPressEvent:(CGEventRef)event {
-    // keyboard type, dismiss if it is not built-in keyboard
-    if (ignoreExternalKeyboard) {
+    if (disabled) {
+        return event;
+    }
+
+    // keyboard type, used if user specify ignore-external or ignore-internal
+    if (ignoreExternalKeyboard || ignoreInternalKeyboard) {
         int64_t keyboardType = CGEventGetIntegerValueField(event, kCGKeyboardEventKeyboardType);
         // 58: seems to be the value for pre-2018 models
         // 59: MacBook Pro (15-inch, 2018) https://github.com/aahung/Unshaky/issues/40
-        if (keyboardType != 58 && keyboardType != 59) return event;
+        if (ignoreExternalKeyboard && keyboardType != 58 && keyboardType != 59) return event;
+        if (ignoreInternalKeyboard && (keyboardType == 58 || keyboardType == 59)) return event;
     }
 
     // The incoming keycode.
@@ -180,8 +227,8 @@ static NSDictionary<NSNumber *, NSString *> *_keyCodeToString;
                     [_debugViewController appendDismissed];
                 }
 
-                if (shakyPressDismissedHandler != nil) {
-                    shakyPressDismissedHandler(keyCode);
+                if (statisticsHandler != nil && !statisticsDisabled) {
+                    statisticsHandler(keyCode);
                 }
                 dismissNextEvent[keyCode] = YES;
                 return nil;
@@ -237,8 +284,8 @@ CGEventRef eventTapCallback(CGEventTapProxy proxy, CGEventType type, CGEventRef 
     return [kc filterShakyPressEvent: event];
 }
 
-- (void)shakyPressDismissed:(Handler)handler {
-    shakyPressDismissedHandler = handler;
+- (void)setStatisticsHandler:(Handler)handler {
+    statisticsHandler = handler;
 }
 
 + (void)setKeyCodeToString:(NSDictionary<NSNumber *,NSString *> *)keyCodeToString {

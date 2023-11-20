@@ -1,0 +1,29 @@
+/*
+  Localizable.strings
+  Unshaky
+
+  Created by Xinhong LIU on 2/26/19.
+  Copyright © 2019 Nested Error. All rights reserved.
+*/
+
+"Version" = "Verze: %@";
+
+"Overall Statistic" = "Zabráněno %d proklikům";
+
+"Configuration Window Title" = "Nastavení Unshaky";
+
+"Accessibility Help" = "Unshaky vyžaduje ke své funkčnosti funkce Zpřístupnění. Aplikace se pokusí otevřít panel s nastavením. Pokud se neotevře automaticky, otevřete aplikaci Předvolby systému -> Zabezpečení a soukromí -> Soukromí (panel) -> Zpřístupnění (levý sloupec).\n\nPo otevření panelu přidejte aplikaci Unshaky.app do seznamu a zaškrtněte.";
+
+"Invalid Delay" = "\"%@\" není platná hodnota prodlevy. Zadejte prosím celočíselnou hodnotu.";
+
+"Paste the configuration here" = "Zde vložte konfiguraci";
+
+"Invalid inputs" = "Neplatný vstup";
+
+"Invalid inputs, length does not match" = "Neplatný vstup, délka neodpovídá";
+
+"Temporarily disabled by other software" = "Dočasně blokováno jiným programem";
+
+"Turn on" = "Zapnout";
+
+"Turn off" = "Vypnout";

@@ -13,12 +13,13 @@ import ServiceManagement
 class AppDelegate: NSObject, NSApplicationDelegate {
 
     @IBOutlet weak var menu: NSMenu!
-    let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
+    let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
     @IBOutlet weak var window: NSWindow!
     private var shakyPressPreventer : ShakyPressPreventer
     @IBOutlet weak var dismissShakyPressCountMenuItem: NSMenuItem!
     @IBOutlet weak var preferenceMenuItem: NSMenuItem!
     @IBOutlet weak var versionMenuItem: NSMenuItem!
+    @IBOutlet weak var isEnabledMenuItem: NSMenuItem!
     
     override init() {
         shakyPressPreventer = ShakyPressPreventer.sharedInstance()
@@ -32,6 +33,18 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @IBAction func quitClicked(_ sender: Any) {
         NSApplication.shared.terminate(self)
     }
+
+    @objc func updateEnabledLabel() {
+        isEnabledMenuItem.title = ShakyPressPreventer.sharedInstance().isDisabled()
+            ? NSLocalizedString("💤 Unshaky is disabled, click to enable", comment: "")
+            : NSLocalizedString("🧹 Unshaky is enabled, click to disable", comment: "");
+    }
+
+    @IBAction func enabledClicked(_ sender: Any) {
+        ShakyPressPreventer.sharedInstance()?.setDisabled(
+            !ShakyPressPreventer.sharedInstance().isDisabled()
+        );
+    }
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         let icon = NSImage(named: "UnshakyTemplate")
@@ -42,16 +55,18 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         statusItem.menu?.delegate = self
 
         updateStatLabel()
+        updateEnabledLabel()
 
         // show version number
         let version = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as! String
         versionMenuItem.title = String(format: NSLocalizedString("Version", comment: ""), version)
 
-        shakyPressPreventer.shakyPressDismissed { (keyCode: Int32) in
+        shakyPressPreventer.setStatisticsHandler { (keyCode: Int32) in
             Counter.shared.increment(keyCode: keyCode)
         }
 
         NotificationCenter.default.addObserver(self, selector: #selector(updateStatLabel), name: .counterUpdate, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateEnabledLabel), name: .enabledToggled, object: nil)
 
         setup()
     }
@@ -171,4 +186,8 @@ extension AppDelegate: NSMenuDelegate {
     func menuWillOpen(_ menu: NSMenu) {
         checkAndRecoverIfNeeded()
     }
+}
+
+extension Notification.Name {
+    static let enabledToggled = Notification.Name("enabled-toggled")
 }

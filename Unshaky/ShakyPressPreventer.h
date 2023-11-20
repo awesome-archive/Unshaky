@@ -25,11 +25,15 @@ typedef void (^Handler)(int);
 - (void)removeEventTap;
 - (BOOL)eventTapEnabled;
 - (CGEventRef)filterShakyPressEvent:(CGEventRef)event;
-- (void)shakyPressDismissed:(Handler)handler;
+- (void)setStatisticsHandler:(Handler)handler;
 - (void)loadKeyDelays;
 - (void)loadIgnoreExternalKeyboard;
+- (void)loadIgnoreInternalKeyboard;
 - (void)loadWorkaroundForCmdSpace;
 - (void)loadAggressiveMode;
+- (void)loadStatisticsDisabled;
+- (void)setDisabled:(BOOL)disabled;
+- (BOOL)isDisabled;
 // This initWithKeyDelays:ignoreExternalKeyboard ...: is used for testing purpose
 - (instancetype)initWithKeyDelays:(int*)keyDelays_ ignoreExternalKeyboard:(BOOL)ignoreExternalKeyboard_ workaroundForCmdSpace:(BOOL)workaroundForCmdSpace_ aggressiveMode:(BOOL)aggressiveMode_;
 

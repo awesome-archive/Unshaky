@@ -1,0 +1,33 @@
+/*
+  Localizable.strings
+  Unshaky
+
+  Created by Xinhong LIU on 2/26/19.
+  Copyright © 2019 Nested Error. All rights reserved.
+*/
+
+"Version" = "Wersja: %@";
+
+"Overall Statistic" = "Odrzucono %d przypadkowych kliknięć";
+
+"Configuration Window Title" = "Konfiguruj Unshaky";
+
+"Accessibility Help" = "Unshaky potrzebuje opcji dostępności aby działać poprawnie. Unshaky spróbuje otworzyć ustawienia dla Ciebie. Jeżeli się to nie udało, użyj: Apple -> Preferencje systemowe -> Ochrona i prywatność -> Prywatność (Zakładka) -> Dostępność (po lewej stronie). \n\nBędąc w panelu, dodaj Unshaky.app. ";
+
+"Invalid Delay" = "\"%@\" nie jest poprawną wartością opóźnienia. Wpisz wartość jedności (np. 1) .";
+
+"Paste the configuration here" = "Wklej konfigurację tutaj";
+
+"Invalid inputs" = "Niepoprawna wartość";
+
+"Invalid inputs, length does not match" = "Niepoprawna wartość, długość jest nieodpowiednia";
+
+"Temporarily disabled by other software" = "Tymczasowo wyłączone przez inne oprogramowanie";
+
+"Turn on" = "Włącz";
+
+"Turn off" = "Wyłącz";
+
+"🧹 Unshaky is enabled, click to disable" = "🧹 Unshaky jest aktywny, kliknij żeby wyłączyć";
+
+"💤 Unshaky is disabled, click to enable" = "💤 Unshaky jest nieaktywny, kliknij żeby włączyć";
